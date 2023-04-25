@@ -1,54 +1,51 @@
-#include <stdlib.h>
 #include "sort.h"
 
 /**
- * radix_sort - sorts an array of integers in ascending order
- * using the LSD radix sort algorithm
- * @array: pointer to array to sort
- * @size: size of the array
- **/
+ * radix_sort - sorts an array of integers in ascending order using
+ * the Radix sort algorithm
+ * @array: Array to be sorted
+ * @size: Size of the array
+ */
 void radix_sort(int *array, size_t size)
 {
-    int i, exp = 1;
-    int *output = malloc(sizeof(int) * size);
-    int max_value = 0;
+int i, max_digit = 0, digit_place = 1;
+int *tmp = NULL, *count = NULL;
 
-    if (output == NULL)
-        return;
+if (array == NULL || size < 2)
+return;
 
-    /* Get the maximum value in the array */
-    for (i = 0; i < (int)size; i++)
-    {
-        if (array[i] > max_value)
-            max_value = array[i];
-    }
+tmp = malloc(sizeof(int) * size);
+if (tmp == NULL)
+return;
 
-    /* LSD radix sort */
-    while (max_value / exp > 0)
-    {
-        int bucket[10] = {0};
+for (i = 0; i < (int)size; i++)
+if (array[i] > max_digit)
+max_digit = array[i];
 
-        /* Counting sort */
-        for (i = 0; i < (int)size; i++)
-            bucket[(array[i] / exp) % 10]++;
+while (max_digit / digit_place > 0)
+{
+count = calloc(sizeof(int), 10);
+if (count == NULL)
+{
+free(tmp);
+return;
+}
 
-        for (i = 1; i < 10; i++)
-            bucket[i] += bucket[i - 1];
+for (i = 0; i < (int)size; i++)
+count[array[i] / digit_place % 10]++;
 
-        for (i = size - 1; i >= 0; i--)
-        {
-            output[bucket[(array[i] / exp) % 10] - 1] = array[i];
-            bucket[(array[i] / exp) % 10]--;
-        }
+for (i = 1; i < 10; i++)
+count[i] += count[i - 1];
 
-        /* Copy sorted elements to original array */
-        for (i = 0; i < (int)size; i++)
-            array[i] = output[i];
+for (i = (int)size - 1; i >= 0; i--)
+tmp[--count[array[i] / digit_place % 10]] = array[i];
 
-        /* Print array */
-        print_array(array, size);
-        exp *= 10;
-    }
+for (i = 0; i < (int)size; i++)
+array[i] = tmp[i];
 
-    free(output);
+print_array(array, size);
+digit_place *= 10;
+free(count);
+}
+free(tmp);
 }
