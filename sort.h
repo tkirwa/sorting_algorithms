@@ -36,6 +36,12 @@ void merge_sort(int *array, size_t size);
 void merge(int *array, int *tmp, int start, int mid, int end);
 void heap_sort(int *array, size_t size);
 void radix_sort(int *array, size_t size);
+void bitonic_sort(int *array, size_t size);
+void bitonic_sort_recursive(int *array, size_t size, int direction);
+void bitonic_merge(int *array, size_t size, int direction);
+
+
+void swap(int *a, int *b);
 
 /* Function to swap two nodes in a linked list */
 void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2);
