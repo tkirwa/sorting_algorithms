@@ -1,60 +1,58 @@
 #include "sort.h"
 
 /**
- * sift_down - Fix the heap whose root element is at index 'start'
+ * sift_down - Repair the heap whose root element is at index 'start'
  * @array: Array to sort
- * @start: Index to start
- * @end: Index to end
- * @size: Size of the array
+ * @start: Index of the root element in the heap
+ * @end: Index of the last element in the heap
+ *
+ * Return: Nothing
  */
-void sift_down(int *array, size_t start, size_t end, size_t size)
+void sift_down(int *array, size_t start, size_t end)
 {
 size_t root = start, child, swap;
+int tmp;
 
-while (root * 2 + 1 <= end)
+while (2 * root + 1 <= end)
 {
-child = root * 2 + 1;
+child = 2 * root + 1;
 swap = root;
-
 if (array[swap] < array[child])
 swap = child;
-
 if (child + 1 <= end && array[swap] < array[child + 1])
 swap = child + 1;
-
 if (swap == root)
 return;
-
-int tmp = array[root];
+tmp = array[root];
 array[root] = array[swap];
 array[swap] = tmp;
-print_array(array, size);
-
+print_array(array, end + 1);
 root = swap;
 }
 }
 
 /**
- * heap_sort - Sorts an array of integers in ascending order
- * @array: Array to sort
- * @size: Size of the array
- */
+* heap_sort - Sort an array of integers using heap sort algorithm
+* @array: Array to sort
+* @size: Size of the array
+*
+* Return: Nothing
+*/
 void heap_sort(int *array, size_t size)
 {
+size_t i;
+int tmp;
+
 if (!array || size < 2)
 return;
-
-int i, tmp;
-
-for (i = size / 2 - 1; i >= 0; i--)
-sift_down(array, i, size - 1, size);
-
+for (i = size / 2 - 1; i < size; i--)
+sift_down(array, i, size - 1);
 for (i = size - 1; i > 0; i--)
 {
 tmp = array[0];
 array[0] = array[i];
 array[i] = tmp;
 print_array(array, size);
-sift_down(array, 0, i - 1, size);
+sift_down(array, 0, i - 1);
 }
 }
