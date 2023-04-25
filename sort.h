@@ -32,7 +32,8 @@ void quick_sort(int *array, size_t size);
 void shell_sort(int *array, size_t size);
 void cocktail_sort_list(listint_t **list);
 void counting_sort(int *array, size_t size);
-void merge(int *array, int left, int middle, int right);
+void merge_sort(int *array, size_t size);
+void merge(int *array, int *tmp, int start, int mid, int end);
 
 
 /* Function to swap two nodes in a linked list */
